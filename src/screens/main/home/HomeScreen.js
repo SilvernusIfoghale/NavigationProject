@@ -10,6 +10,63 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function HomeScreen({ navigation }) {
+  const detailsWomen = [
+    {
+      id: 1,
+      img: require('../../../../assets/images/lady-dress.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      title: 'Women T-Shirt',
+      info: ' Women T-Shirt is a style of fabric shirt named after the T-shap of its body and sleeves. Traditional, it has short sleeves and a round neckless, known as acrew neck, which lack a collar.',
+      price: '$341',
+    },
+  ];
+
+  const detailsMen = [
+    {
+      id: 1,
+      img: require('../../../../assets/images/man-shirt.png'),
+      icon: require('../../../../assets/images/favourite-red.png'),
+      title: 'Men T-Shirt',
+      info: ' Men T-Shirt is a style of fabric shirt named after the T-shap of its body and sleeves. Traditional, it has short sleeves and a round neckless, known as acrew neck, which lack a collar.',
+      price: '$233',
+    },
+  ];
+
+  const notificationToday = [
+    {
+      id: 1,
+      title: 'Special Offer',
+      time: 'Today 10:30 PM',
+      image: require('../../../../assets/images/icon-notification.png'),
+    },
+  ];
+  const notificationYesterday = [
+    {
+      id: 1,
+      title: 'Special Offer',
+      time: 'Yesterday 10:30 PM',
+      image: require('../../../../assets/images/icon-notification.png'),
+    },
+    {
+      id: 2,
+      title: 'Special Offer',
+      time: 'Yesterday 10:30 PM',
+      image: require('../../../../assets/images/icon-notification.png'),
+    },
+    {
+      id: 3,
+      title: 'Special Offer',
+      time: 'Yesterday 10:30 PM',
+      image: require('../../../../assets/images/icon-notification.png'),
+    },
+    {
+      id: 4,
+      title: 'Special Offer',
+      time: 'Yesterday 10:30 PM',
+      image: require('../../../../assets/images/icon-notification.png'),
+    },
+  ];
+
   const dataFile = [
     {
       id: 1,
@@ -48,7 +105,12 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.name}>Aleena shaheen</Text>
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('NotificationScreen')}
+          onPress={() =>
+            navigation.navigate('NotificationScreen', {
+              today: notificationToday,
+              yesterday: notificationYesterday,
+            })
+          }
         >
           <View style={styles.imgContainer}>
             <Image
@@ -101,10 +163,16 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.picContainer}>
         <View>
           <View style={styles.imgManContainer}>
-            <Image
-              source={require('../../../../assets/images/man-shirt.png')}
-              style={styles.imgMan}
-            />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Description', { eachDetails: detailsMen })
+              }
+            >
+              <Image
+                source={require('../../../../assets/images/man-shirt.png')}
+                style={styles.imgMan}
+              />
+            </TouchableOpacity>
             <View style={styles.imgIconContainer}>
               <Image
                 source={require('../../../../assets/images/favourite-red.png')}
@@ -120,7 +188,11 @@ export default function HomeScreen({ navigation }) {
         <View>
           <View style={styles.imgManContainer}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Description')}
+              onPress={() =>
+                navigation.navigate('Description', {
+                  eachDetails: detailsWomen,
+                })
+              }
             >
               <Image
                 source={require('../../../../assets/images/lady-dress.png')}

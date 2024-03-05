@@ -19,7 +19,7 @@ export default function Success({ navigation }) {
         <FormButton
           text={'Thank u'}
           click={() => {
-            navigation.navigate('nextScreen');
+            navigation.navigate('AppStackNavigator');
           }}
         />
       </View>

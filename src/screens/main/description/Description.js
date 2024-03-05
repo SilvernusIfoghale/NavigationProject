@@ -2,86 +2,88 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import Title from '../../../component/title/Title';
 import Star from '../../../component/redStar/Star';
+import { FlatList } from 'react-native-gesture-handler';
 
-export default function Description({ navigation }) {
+export default function Description({ navigation, route }) {
+  const currentInfo = route.params.eachDetails;
+
   return (
     <View style={styles.container}>
-      <View style={styles.topNav}>
-        <View>
-          <Title back={() => navigation.goBack()} />
-        </View>
-        <View style={styles.imgIconContainer}>
-          <Image
-            source={require('../../../../assets/images/favourite-red.png')}
-            style={styles.redIcon}
-          />
-        </View>
-      </View>
-      <View style={styles.imgContainer}>
-        <Image
-          source={require('../../../../assets/images/lady-dress.png')}
-          style={styles.img}
-        />
-      </View>
-      <View style={styles.bodyContainer}>
-        <View style={styles.headSection}>
-          <View>
-            <Text style={styles.womenText}>Women T-Shirt</Text>
-          </View>
-          <View>
-            <View style={styles.starContainer}>
-              <Star />
-              <Star />
-              <Star />
-              <Star />
-            </View>
+      <FlatList
+        data={currentInfo}
+        renderItem={({ item }) => {
+          return (
+            <>
+              <View style={styles.topNav}>
+                <View>
+                  <Title back={() => navigation.goBack()} />
+                </View>
+                <View style={styles.imgIconContainer}>
+                  <Image source={item.icon} style={styles.redIcon} />
+                </View>
+              </View>
+              <View style={styles.imgContainer}>
+                <Image source={item.img} style={styles.img} />
+              </View>
+              <View style={styles.bodyContainer}>
+                <View style={styles.headSection}>
+                  <View>
+                    <Text style={styles.womenText}>{item.title}</Text>
+                  </View>
+                  <View>
+                    <View style={styles.starContainer}>
+                      <Star />
+                      <Star />
+                      <Star />
+                      <Star />
+                    </View>
 
-            <Text style={styles.reviewText}>2038 Reviews</Text>
-          </View>
-        </View>
-        <View>
-          <Text style={styles.selectText}>Select your Size</Text>
-        </View>
-        <View style={styles.selectWrapper}>
-          <View style={styles.sizeContainer}>
-            <View style={styles.selectContainer}>
-              <Text style={styles.textSize}>S</Text>
-            </View>
-            <View style={styles.mContainer}>
-              <Text style={styles.textSize}>M</Text>
-            </View>
-            <View style={styles.selectContainer}>
-              <Text style={styles.textSize}>L</Text>
-            </View>
-            <View style={styles.selectContainer}>
-              <Text style={styles.textSize}>XL</Text>
-            </View>
-          </View>
-          <View>
-            <View style={styles.selectContainerLast}>
-              <Text style={styles.textIncr}>-</Text>
-              <Text style={styles.textIncr}>2</Text>
-              <Text style={styles.textIncr}>+</Text>
-            </View>
-          </View>
-        </View>
-        <View>
-          <Text style={styles.womenText}>Description</Text>
-          <Text style={styles.desText}>
-            T-Shirt is a style of fabric shirt named after the T-shap of its
-            body and sleeves. Traditional, it has short sleeves and a round
-            neckless, known as acrew neck, which lack a collar.
-          </Text>
-        </View>
-        <View style={styles.bottomContainer}>
-          <View>
-            <Text style={styles.priceText}>$341</Text>
-          </View>
-          <View style={styles.btnContainer}>
-            <Text style={styles.btnText}>Shop Now</Text>
-          </View>
-        </View>
-      </View>
+                    <Text style={styles.reviewText}>2038 Reviews</Text>
+                  </View>
+                </View>
+                <View>
+                  <Text style={styles.selectText}>Select your Size</Text>
+                </View>
+                <View style={styles.selectWrapper}>
+                  <View style={styles.sizeContainer}>
+                    <View style={styles.selectContainer}>
+                      <Text style={styles.textSize}>S</Text>
+                    </View>
+                    <View style={styles.mContainer}>
+                      <Text style={styles.textSize}>M</Text>
+                    </View>
+                    <View style={styles.selectContainer}>
+                      <Text style={styles.textSize}>L</Text>
+                    </View>
+                    <View style={styles.selectContainer}>
+                      <Text style={styles.textSize}>XL</Text>
+                    </View>
+                  </View>
+                  <View>
+                    <View style={styles.selectContainerLast}>
+                      <Text style={styles.textIncr}>-</Text>
+                      <Text style={styles.textIncr}>2</Text>
+                      <Text style={styles.textIncr}>+</Text>
+                    </View>
+                  </View>
+                </View>
+                <View>
+                  <Text style={styles.womenText}>Description</Text>
+                  <Text style={styles.desText}>{item.info}</Text>
+                </View>
+                <View style={styles.bottomContainer}>
+                  <View>
+                    <Text style={styles.priceText}>{item.price}</Text>
+                  </View>
+                  <View style={styles.btnContainer}>
+                    <Text style={styles.btnText}>Shop Now</Text>
+                  </View>
+                </View>
+              </View>
+            </>
+          );
+        }}
+      />
     </View>
   );
 }

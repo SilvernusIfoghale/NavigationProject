@@ -4,15 +4,11 @@ import Header from '../../../component/header/Header';
 import Title from '../../../component/title/Title';
 import { FlatList } from 'react-native-gesture-handler';
 
-export default function NotificationScreen({ navigation }) {
-  const dataFile = [
-    {
-      id: 1,
-      title: 'Special Offer',
-      time: 'Today 10:30 PM',
-      image: require('../../../../assets/images/icon-notification.png'),
-    },
-  ];
+export default function NotificationScreen({ navigation, route }) {
+  const todayNotify = route.params.today;
+
+  const yesterdayNotify = route.params.yesterday;
+
   return (
     <View style={styles.container}>
       <Title title={'Notifications'} back={() => navigation.goBack()} />
@@ -25,7 +21,7 @@ export default function NotificationScreen({ navigation }) {
       </View>
       <View>
         <FlatList
-          data={dataFile}
+          data={todayNotify}
           renderItem={({ item }) => {
             return (
               <View style={styles.sectionContainer}>
@@ -46,28 +42,10 @@ export default function NotificationScreen({ navigation }) {
       </View>
       <View>
         <FlatList
-          data={dataFile}
+          data={yesterdayNotify}
           renderItem={({ item }) => {
             return (
               <View>
-                <View style={styles.sectionContainer}>
-                  <View>
-                    <Image source={item.image} style={styles.img} />
-                  </View>
-                  <View>
-                    <Text style={styles.lastText}>{item.title}</Text>
-                    <Text style={styles.dayText}>{item.time}</Text>
-                  </View>
-                </View>
-                <View style={styles.sectionContainer}>
-                  <View>
-                    <Image source={item.image} style={styles.img} />
-                  </View>
-                  <View>
-                    <Text style={styles.lastText}>{item.title}</Text>
-                    <Text style={styles.dayText}>{item.time}</Text>
-                  </View>
-                </View>
                 <View style={styles.sectionContainer}>
                   <View>
                     <Image source={item.image} style={styles.img} />
