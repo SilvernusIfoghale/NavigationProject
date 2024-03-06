@@ -97,11 +97,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgray',
     borderBottomRightRadius: 55,
     borderBottomLeftRadius: 50,
-    height: 380,
+    height: 350,
     width: '100%',
   },
   img: {
-    height: 380,
+    height: 350,
     width: '90%',
   },
   topNav: {

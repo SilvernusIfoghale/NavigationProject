@@ -59,12 +59,6 @@ export default function HomeScreen({ navigation }) {
       time: 'Yesterday 10:30 PM',
       image: require('../../../../assets/images/icon-notification.png'),
     },
-    {
-      id: 4,
-      title: 'Special Offer',
-      time: 'Yesterday 10:30 PM',
-      image: require('../../../../assets/images/icon-notification.png'),
-    },
   ];
 
   const dataFile = [
