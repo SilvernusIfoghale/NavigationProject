@@ -6,10 +6,15 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { dataFile } from '../../../component/data/Data';
 
 export default function HomeScreen({ navigation }) {
+  const [selectedOption, setSelectedOption] = useState('All');
+  const [selectedImg, setSelectedImg] = useState(true);
+  const [selectedImg1, setSelectedImg1] = useState(true);
+
   const detailsWomen = [
     {
       id: 1,
@@ -61,36 +66,6 @@ export default function HomeScreen({ navigation }) {
     },
   ];
 
-  const dataFile = [
-    {
-      id: 1,
-      text: 'All',
-    },
-    {
-      id: 2,
-      text: "Men's",
-    },
-    {
-      id: 3,
-      text: 'Women',
-    },
-    {
-      id: 4,
-      text: 'Children',
-    },
-    {
-      id: 5,
-      text: 'Unisex',
-    },
-    {
-      id: 6,
-      text: 'Beddings',
-    },
-    {
-      id: 7,
-      text: 'Gifts',
-    },
-  ];
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
@@ -147,9 +122,21 @@ export default function HomeScreen({ navigation }) {
           data={dataFile}
           renderItem={({ item }) => {
             return (
-              <View style={styles.option}>
-                <Text style={styles.optionText}>{item.text}</Text>
-              </View>
+              <TouchableOpacity onPress={() => setSelectedOption(item.text)}>
+                <View style={styles.option}>
+                  <Text
+                    style={[
+                      styles.optionText,
+                      {
+                        backgroundColor:
+                          selectedOption == item.text ? 'red' : 'lightgray',
+                      },
+                    ]}
+                  >
+                    {item.text}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             );
           }}
         />
@@ -168,10 +155,19 @@ export default function HomeScreen({ navigation }) {
               />
             </TouchableOpacity>
             <View style={styles.imgIconContainer}>
-              <Image
-                source={require('../../../../assets/images/favourite-red.png')}
-                style={styles.imgIcon}
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedImg1(!selectedImg1);
+                }}
+              >
+                <Image
+                  source={require('../../../../assets/images/favourite-red.png')}
+                  style={[
+                    styles.imgIcon,
+                    { tintColor: selectedImg1 ? 'gray' : 'red' },
+                  ]}
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.priceContainer}>
@@ -194,10 +190,15 @@ export default function HomeScreen({ navigation }) {
               />
             </TouchableOpacity>
             <View style={styles.imgIconContainer}>
-              <Image
-                source={require('../../../../assets/images/favourite-gray.png')}
-                style={styles.imgIcon}
-              />
+              <TouchableOpacity onPress={() => setSelectedImg(!selectedImg)}>
+                <Image
+                  source={require('../../../../assets/images/favourite-gray.png')}
+                  style={[
+                    styles.imgIcon,
+                    { tintColor: selectedImg ? 'gray' : 'red' },
+                  ]}
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.priceContainer}>
