@@ -6,63 +6,180 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { dataFile } from '../../../component/data/Data';
+import { detailsMen } from '../../../component/data/Data';
+import { detailsWomen } from '../../../component/data/Data';
+import { notificationToday } from '../../../component/data/Data';
+import { notificationYesterday } from '../../../component/data/Data';
 
 export default function HomeScreen({ navigation }) {
   const [selectedOption, setSelectedOption] = useState('All');
   const [selectedImg, setSelectedImg] = useState(true);
-  const [selectedImg1, setSelectedImg1] = useState(true);
+  const [selectedImg1, setSelectedImg1] = useState('');
+  const [products, setProducts] = useState([]);
 
-  const detailsWomen = [
-    {
-      id: 1,
-      img: require('../../../../assets/images/lady-dress.png'),
-      icon: require('../../../../assets/images/favourite-gray.png'),
-      title: 'Women T-Shirt',
-      info: ' Women T-Shirt is a style of fabric shirt named after the T-shap of its body and sleeves. Traditional, it has short sleeves and a round neckless, known as acrew neck, which lack a collar.',
-      price: '$341',
-    },
-  ];
+  const GetProducts = () => {
+    fetch('https://fakestoreapi.com/products')
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  };
 
-  const detailsMen = [
+  useEffect(() => {
+    GetProducts();
+  }, []);
+
+  const handleFavorite = (id) => {
+    if (selectedImg1 == id) {
+      setSelectedImg1('');
+    } else {
+      setSelectedImg1(id);
+    }
+  };
+
+  const footerRender = () => {
+    return <View style={{ marginBottom: 150 }}></View>;
+  };
+
+  const RenderHeader = () => {
+    return (
+      <>
+        <View style={styles.redContainer}>
+          <View>
+            <Text style={styles.textShop}>
+              Shop with Us! Get 50% off on items
+            </Text>
+            <Text style={styles.shopBtn}>Shop Now</Text>
+          </View>
+          <View>
+            <Image
+              source={require('../../../../assets/images/lady-top.png')}
+              style={styles.imgRedBox}
+            />
+          </View>
+        </View>
+
+        <View style={styles.flatlist}>
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+            data={dataFile}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity onPress={() => setSelectedOption(item.text)}>
+                  <View style={styles.option}>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        {
+                          backgroundColor:
+                            selectedOption == item.text ? 'red' : 'lightgray',
+                        },
+                      ]}
+                    >
+                      {item.text}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </View>
+      </>
+    );
+  };
+
+  const choices = [
     {
       id: 1,
       img: require('../../../../assets/images/man-shirt.png'),
-      icon: require('../../../../assets/images/favourite-red.png'),
-      title: 'Men T-Shirt',
-      info: ' Men T-Shirt is a style of fabric shirt named after the T-shap of its body and sleeves. Traditional, it has short sleeves and a round neckless, known as acrew neck, which lack a collar.',
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
       price: '$233',
-    },
-  ];
-
-  const notificationToday = [
-    {
-      id: 1,
-      title: 'Special Offer',
-      time: 'Today 10:30 PM',
-      image: require('../../../../assets/images/icon-notification.png'),
-    },
-  ];
-  const notificationYesterday = [
-    {
-      id: 1,
-      title: 'Special Offer',
-      time: 'Yesterday 10:30 PM',
-      image: require('../../../../assets/images/icon-notification.png'),
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
     },
     {
       id: 2,
-      title: 'Special Offer',
-      time: 'Yesterday 10:30 PM',
-      image: require('../../../../assets/images/icon-notification.png'),
+      img: require('../../../../assets/images/lady-dress.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
+      price: '$341',
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
     },
     {
       id: 3,
-      title: 'Special Offer',
-      time: 'Yesterday 10:30 PM',
-      image: require('../../../../assets/images/icon-notification.png'),
+      img: require('../../../../assets/images/man-shirt.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
+      price: '$233',
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
+    },
+    {
+      id: 4,
+      img: require('../../../../assets/images/lady-dress.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
+      price: '$341',
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
+    },
+    {
+      id: 5,
+      img: require('../../../../assets/images/man-shirt.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
+      price: '$233',
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
+    },
+    {
+      id: 6,
+      img: require('../../../../assets/images/lady-dress.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
+      price: '$341',
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
+    },
+    {
+      id: 7,
+      img: require('../../../../assets/images/man-shirt.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
+      price: '$233',
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
+    },
+    {
+      id: 8,
+      img: require('../../../../assets/images/lady-dress.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
+      price: '$341',
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
+    },
+    {
+      id: 9,
+      img: require('../../../../assets/images/man-shirt.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
+      price: '$233',
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
+    },
+    {
+      id: 10,
+      img: require('../../../../assets/images/lady-dress.png'),
+      icon: require('../../../../assets/images/favourite-gray.png'),
+      gender: 'Men T-Shirt',
+      price: '$341',
+      starIcon: require('../../../../assets/images/star-red.png'),
+      wishlistIcon: require('../../../../assets/images/wishlist.png'),
     },
   ];
 
@@ -101,128 +218,85 @@ export default function HomeScreen({ navigation }) {
           style={styles.iconImg}
         />
       </View>
-      <View style={styles.redContainer}>
-        <View>
-          <Text style={styles.textShop}>
-            Shop with Us! Get 50% off on items
-          </Text>
-          <Text style={styles.shopBtn}>Shop Now</Text>
-        </View>
-        <View>
-          <Image
-            source={require('../../../../assets/images/lady-top.png')}
-            style={styles.imgRedBox}
-          />
-        </View>
-      </View>
-      <View style={styles.flatlist}>
+      <View>
         <FlatList
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
-          data={dataFile}
+          data={products}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity onPress={() => setSelectedOption(item.text)}>
-                <View style={styles.option}>
-                  <Text
-                    style={[
-                      styles.optionText,
-                      {
-                        backgroundColor:
-                          selectedOption == item.text ? 'red' : 'lightgray',
-                      },
-                    ]}
-                  >
-                    {item.text}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <View>
+                {/* <Image
+                  source={{ uri: item.image }}
+                  style={{ width: 50, height: 50 }}
+                /> */}
+                {/* <Text>{item.price} </Text> */}
+                {/* <Text>{console.log(item.image)} </Text> */}
+                {/* <Text>{item.title} </Text> */}
+              </View>
             );
           }}
         />
       </View>
+
       <View style={styles.picContainer}>
-        <View>
-          <View style={styles.imgManContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Description', { eachDetails: detailsMen })
-              }
-            >
-              <Image
-                source={require('../../../../assets/images/man-shirt.png')}
-                style={styles.imgMan}
-              />
-            </TouchableOpacity>
-            <View style={styles.imgIconContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  setSelectedImg1(!selectedImg1);
-                }}
-              >
-                <Image
-                  source={require('../../../../assets/images/favourite-red.png')}
-                  style={[
-                    styles.imgIcon,
-                    { tintColor: selectedImg1 ? 'gray' : 'red' },
-                  ]}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.priceContainer}>
-            <Text style={styles.titleText}>Men T-Shirt</Text>
-            <Text style={styles.priceText}>$233</Text>
-          </View>
-        </View>
-        <View>
-          <View style={styles.imgManContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Description', {
-                  eachDetails: detailsWomen,
-                })
-              }
-            >
-              <Image
-                source={require('../../../../assets/images/lady-dress.png')}
-                style={styles.imgMan}
-              />
-            </TouchableOpacity>
-            <View style={styles.imgIconContainer}>
-              <TouchableOpacity onPress={() => setSelectedImg(!selectedImg)}>
-                <Image
-                  source={require('../../../../assets/images/favourite-gray.png')}
-                  style={[
-                    styles.imgIcon,
-                    { tintColor: selectedImg ? 'gray' : 'red' },
-                  ]}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.priceContainer}>
-            <Text style={styles.titleText}>Women T-Shirt</Text>
-            <Text style={styles.priceText}>$341</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.imgBottomContainer}>
-        <Image
-          source={require('../../../../assets/images/star-red.png')}
-          style={styles.imgBottom}
-        />
-        <Image
-          source={require('../../../../assets/images/wishlist.png')}
-          style={styles.imgBottom}
-        />
-        <Image
-          source={require('../../../../assets/images/star-red.png')}
-          style={styles.imgBottom}
-        />
-        <Image
-          source={require('../../../../assets/images/wishlist.png')}
-          style={styles.imgBottom}
+        <FlatList
+          ListHeaderComponent={RenderHeader}
+          ListFooterComponent={footerRender}
+          showsVerticalScrollIndicator={false}
+          data={choices}
+          numColumns={2}
+          columnWrapperStyle={{
+            justifyContent: 'space-between',
+          }}
+          renderItem={({ item }) => {
+            return (
+              <View>
+                <View style={styles.imgManContainer}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('Description', {
+                        eachDetails: detailsWomen,
+                      })
+                    }
+                  >
+                    <Image source={item.img} style={styles.imgMan} />
+                  </TouchableOpacity>
+                  <View style={styles.imgIconContainer}>
+                    {selectedImg1 == item.id ? (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleFavorite(item.id);
+                        }}
+                      >
+                        <Image
+                          source={item.icon}
+                          style={[styles.imgIcon, { tintColor: 'red' }]}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleFavorite(item.id);
+                        }}
+                      >
+                        <Image
+                          source={item.icon}
+                          style={[styles.imgIcon, { tintColor: 'gray' }]}
+                        />
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                </View>
+                <View style={styles.priceContainer}>
+                  <Text style={styles.titleText}>{item.gender}</Text>
+                  <Text style={styles.priceText}>{item.price}</Text>
+                </View>
+                <View style={styles.imgBottomContainer}>
+                  <Image source={item.starIcon} style={styles.imgBottom} />
+                  <Image source={item.wishlistIcon} style={styles.imgBottom} />
+                </View>
+              </View>
+            );
+          }}
         />
       </View>
     </View>
@@ -317,13 +391,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   flatlist: {
-    position: 'absolute',
-    bottom: 270,
-    right: 0,
-    left: 0,
+    // position: 'absolute',
+    // bottom: 350,
+    // right: 0,
+    // left: 0,
   },
   imgManContainer: {
-    marginTop: 70,
+    marginTop: 20,
     backgroundColor: 'lightgray',
     width: 155,
   },
@@ -350,7 +424,7 @@ const styles = StyleSheet.create({
   picContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // gap: 10,
+    // marginBottom: -35,
   },
   imgIconContainer: {
     position: 'absolute',

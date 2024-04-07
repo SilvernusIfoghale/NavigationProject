@@ -1,17 +1,81 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { TextInput } from 'react-native-gesture-handler';
 import FormInput from '../../component/input/FormInput';
 import Header from '../../component/header/Header';
+import { useNavigation } from '@react-navigation/native';
 import FormButton from '../../component/button/FormButton';
 
-export default function CreateAccount({ navigation }) {
+export default function CreateAccount() {
+  const navigation = useNavigation();
+
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = () => {
+    if (firstname == '' || lastname == '' || email == '' || password == '') {
+      alert('Please enter all required fields');
+    } else {
+      fetch('https://lauhub.onrender.com/api/v1/user/create-user', {
+        method: 'POST',
+        body: JSON.stringify({
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          password: password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((json) => console.log(json));
+      navigation.navigate('Success');
+    }
+  };
+
+  // saving user information
+  // saving user information
+  // const handleSubmit = async () => {
+  //   try {
+  //     if (User === '' || User === undefined || User === null) {
+  //       alert('Please enter your name');
+  //     } else {
+  //       await AsyncStorage.setItem('SavedUser', User);
+  //       console.log('this is the value to be passed' + User);
+  //       handleNext();
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   return (
     <View style={styles.container}>
-      <Header headTitle={'Register'} />
-      <FormInput title={'Full Name'} placeholder={'Enter Your Name'} />
-      <FormInput title={'Email'} placeholder={'Enter Your E-mail'} />
-      <FormInput title={'Password'} placeholder={'Enter Your Password'} />
+      <Header headTitle="Register" />
+      <FormInput
+        title="First Name"
+        placeholder="Enter Your Fristname"
+        value={firstname}
+        setValue={setFirstname}
+      />
+      <FormInput
+        title="Last Name"
+        placeholder="Enter Your Lastname"
+        value={lastname}
+        setValue={setLastname}
+      />
+      <FormInput
+        title="Email"
+        placeholder="Enter Your E-mail"
+        value={email}
+        setValue={setEmail}
+      />
+      <FormInput
+        title="Password"
+        placeholder="Enter Your Password"
+        value={password}
+        setValue={setPassword}
+      />
       <View style={styles.middleLine}>
         <View style={styles.line}></View>
         <Text style={styles.textOr}>OR</Text>
@@ -32,12 +96,7 @@ export default function CreateAccount({ navigation }) {
         </View>
       </View>
       <View style={styles.bottomSection}>
-        <FormButton
-          text={'Sign Up'}
-          click={() => {
-            navigation.navigate('Success');
-          }}
-        />
+        <FormButton text={'Sign Up'} click={handleSubmit} />
 
         <View style={styles.bottomContainer}>
           <Text style={styles.textAccount}>Already have an account?</Text>
@@ -68,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 15,
-    paddingVertical: 40,
+    paddingVertical: 20,
   },
   textOr: {
     fontWeight: 'bold',
@@ -84,7 +143,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 35,
-    paddingVertical: 10,
+    paddingVertical: 4,
   },
   socialIcon: {
     justifyContent: 'center',
