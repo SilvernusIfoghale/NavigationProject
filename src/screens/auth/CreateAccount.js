@@ -5,6 +5,7 @@ import FormInput from '../../component/input/FormInput';
 import Header from '../../component/header/Header';
 import { useNavigation } from '@react-navigation/native';
 import FormButton from '../../component/button/FormButton';
+import { registerUser } from '../../api/Auth';
 
 export default function CreateAccount() {
   const navigation = useNavigation();
@@ -14,38 +15,29 @@ export default function CreateAccount() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (firstname == '' || lastname == '' || email == '' || password == '') {
       alert('Please enter all required fields');
     } else {
-      fetch('https://lauhub.onrender.com/api/v1/user/create-user', {
-        method: 'POST',
-        body: JSON.stringify({
-          firstname: firstname,
-          lastname: lastname,
-          email: email,
-          password: password,
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => console.log(json));
-      navigation.navigate('Success');
+      const body = { firstname, lastname, email, password };
+      const { status, data } = await registerUser(body);
+      console.log('response from registerUser Api', data, status);
+      navigation.navigate('Login');
     }
   };
 
-  // saving user information
-  // saving user information
-  // const handleSubmit = async () => {
-  //   try {
-  //     if (User === '' || User === undefined || User === null) {
-  //       alert('Please enter your name');
-  //     } else {
-  //       await AsyncStorage.setItem('SavedUser', User);
-  //       console.log('this is the value to be passed' + User);
-  //       handleNext();
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
+  //     fetch('https://lauhub.onrender.com/api/v1/user/create-user', {
+  //       method: 'POST',
+  //       body: JSON.stringify({
+  //         firstname: firstname,
+  //         lastname: lastname,
+  //         email: email,
+  //         password: password,
+  //       }),
+  //     })
+  //       .then((res) => res.json())
+  //       .then((json) => console.log(json));
+  //     navigation.navigate('Success');
   //   }
   // };
 

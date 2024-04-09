@@ -3,10 +3,25 @@ import React, { useState } from 'react';
 import Header from '../../component/header/Header';
 import FormInput from '../../component/input/FormInput';
 import FormButton from '../../component/button/FormButton';
+import { loginUser } from '../../api/Auth';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Login({ navigation }) {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigation = useNavigation();
+
+  const handleSubmit = async () => {
+    if (email == '' || password == '') {
+      alert('Please enter all required fields');
+    } else {
+      const body = { email, password };
+      const { status, data } = await loginUser(body);
+      console.log('response from registerUser Api', data, status);
+      navigation.navigate('Success');
+    }
+  };
 
   //getting username from local storage
   // const getUser = async () => {
@@ -43,10 +58,7 @@ export default function Login({ navigation }) {
         setValue={setPassword}
       />
       <View style={styles.btn}>
-        <FormButton
-          text={'Log In'}
-          click={() => navigation.navigate('Success')}
-        />
+        <FormButton text={'Log In'} click={handleSubmit} />
       </View>
     </View>
   );
