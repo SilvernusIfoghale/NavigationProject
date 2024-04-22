@@ -5,38 +5,27 @@ import FormInput from '../../component/input/FormInput';
 import FormButton from '../../component/button/FormButton';
 import { loginUser } from '../../api/Auth';
 import { useNavigation } from '@react-navigation/native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
   const handleSubmit = async () => {
+    setLoading(true);
     if (email == '' || password == '') {
       alert('Please enter all required fields');
     } else {
       const body = { email, password };
       const { status, data } = await loginUser(body);
+      setLoading(false);
       console.log('response from registerUser Api', data, status);
       navigation.navigate('Success');
     }
   };
-
-  //getting username from local storage
-  // const getUser = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('SavedUser');
-  //     if (value !== null) {
-  //       setUserName(value);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
 
   return (
     //   {
@@ -44,6 +33,7 @@ export default function Login() {
     //      "password":"123456"
     //  }
     <View style={styles.container}>
+      {<Spinner visible={loading} height="80" width="80" color="#4fa94d" />}
       <Header headTitle={'Log In'} />
       <FormInput
         title={'E-mail'}

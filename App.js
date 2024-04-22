@@ -4,15 +4,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './src/navigator/StackNavigator';
 import AppStackNavigator from './src/navigator/AppStackNavigator';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
   const Stack = createStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="firtScreen" component={StackNavigator} />
-        <Stack.Screen name="AppStackNavigator" component={AppStackNavigator} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="firtScreen" component={StackNavigator} />
+          <Stack.Screen
+            name="AppStackNavigator"
+            component={AppStackNavigator}
+          />
+        </Stack.Navigator>
+        <Toast />
+      </NavigationContainer>
+    </>
   );
 }

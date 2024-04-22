@@ -6,6 +6,8 @@ import Header from '../../component/header/Header';
 import { useNavigation } from '@react-navigation/native';
 import FormButton from '../../component/button/FormButton';
 import { registerUser } from '../../api/Auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default function CreateAccount() {
   const navigation = useNavigation();
@@ -14,35 +16,66 @@ export default function CreateAccount() {
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     if (firstname == '' || lastname == '' || email == '' || password == '') {
       alert('Please enter all required fields');
     } else {
+      setLoading(true);
       const body = { firstname, lastname, email, password };
       const { status, data } = await registerUser(body);
       console.log('response from registerUser Api', data, status);
-      navigation.navigate('Login');
+      const value = await data.userId;
+      setLoading(false);
+      try {
+        await AsyncStorage.setItem('SavedId', value);
+        console.log('this is the value to be passed ' + value);
+        handleNext();
+      } catch (error) {
+        console.log(error);
+      }
+
+      // handleSaveData();
     }
   };
 
-  //     fetch('https://lauhub.onrender.com/api/v1/user/create-user', {
-  //       method: 'POST',
-  //       body: JSON.stringify({
-  //         firstname: firstname,
-  //         lastname: lastname,
-  //         email: email,
-  //         password: password,
-  //       }),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((json) => console.log(json));
-  //     navigation.navigate('Success');
+  // const handleSaveData = async () => {
+  //   try {
+  //     await AsyncStorage.setItem('SavedUser', value);
+  //     console.log('this is the value to be passed' + value);
+  //     handleNext();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleNext = () => {
+    navigation.navigate('Verify');
+  };
+
+  // const storeData = async (value) => {
+  //   try {
+  //     await AsyncStorage.setItem('my-key', value);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  // const storeData = async (body) => {
+  //   try {
+  //     const jsonValue = JSON.stringify(body);
+  //     await AsyncStorage.setItem('SavedData', jsonValue);
+  //     console.log('This is the saved value', jsonValue);
+  //     console.log('This is the saved value', jsonValue.userId);
+  //   } catch (error) {
+  //     console.log(error);
   //   }
   // };
 
   return (
     <View style={styles.container}>
+      {<Spinner visible={loading} height="80" width="80" color="#4fa94d" />}
       <Header headTitle="Register" />
       <FormInput
         title="First Name"
